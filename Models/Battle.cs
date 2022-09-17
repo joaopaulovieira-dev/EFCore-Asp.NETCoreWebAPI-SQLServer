@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace EFCore.WebAPI.Models
 {
-    public class Heroi
+    public class Battle
     {
         public int Id { get; set; }
         public string Nome { get; set; }
-        public Batalha Batalha { get; set; }
-        public int BatalhaId { get; set; }
+        public string Descricao { get; set; }
+        public DateTime DataInicio { get; set; }
+        public DateTime DataFim { get; set; }
     }
 }
