@@ -12,5 +12,6 @@ namespace EFCore.WebAPI.Models
         public string Descricao { get; set; }
         public DateTime DataInicio { get; set; }
         public DateTime DataFim { get; set; }
+        public List<HeroBattle> HeroesBattles { get; set; }
     }
 }
