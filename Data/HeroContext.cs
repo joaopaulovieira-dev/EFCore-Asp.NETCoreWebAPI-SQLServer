@@ -12,6 +12,9 @@ namespace EFCore.WebAPI.Data
         public DbSet<Hero> Heroes { get; set; }
         public DbSet<Weapon> Weapons { get; set; }
         public DbSet<Battle> Battles { get; set; }
+        public DbSet<HeroBattle> HeroBattles { get; set; }
+        public DbSet<SecretIdentity> SecretIdentities { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
