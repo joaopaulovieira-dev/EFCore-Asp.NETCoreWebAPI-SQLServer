@@ -20,5 +20,13 @@ namespace EFCore.WebAPI.Data
         {
             optionsBuilder.UseSqlServer("Password=33385412VR.jp@;Persist Security Info=True;User ID=sa;Initial Catalog=HEROAPP;Data Source=NOTEBOOK-DELL");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<HeroBattle>(entity =>
+            {
+                entity.HasKey(e => new { e.BatalhaId, e.HeroId });
+            });
+        }
     }
 }
