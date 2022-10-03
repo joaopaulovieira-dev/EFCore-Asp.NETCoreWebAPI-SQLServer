@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EFCore.WebAPI.Migrations
+namespace EFCore.Repository.Migrations
 {
-    public partial class initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,16 +30,54 @@ namespace EFCore.WebAPI.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(nullable: true),
-                    BatalhaId = table.Column<int>(nullable: false)
+                    Nome = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Heroes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HeroBattles",
+                columns: table => new
+                {
+                    HeroId = table.Column<int>(nullable: false),
+                    BatalhaId = table.Column<int>(nullable: false),
+                    BattleId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HeroBattles", x => new { x.BatalhaId, x.HeroId });
                     table.ForeignKey(
-                        name: "FK_Heroes_Battles_BatalhaId",
-                        column: x => x.BatalhaId,
+                        name: "FK_HeroBattles_Battles_BattleId",
+                        column: x => x.BattleId,
                         principalTable: "Battles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_HeroBattles_Heroes_HeroId",
+                        column: x => x.HeroId,
+                        principalTable: "Heroes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SecretIdentities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nomereal = table.Column<int>(nullable: false),
+                    HeroId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SecretIdentities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SecretIdentities_Heroes_HeroId",
+                        column: x => x.HeroId,
+                        principalTable: "Heroes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -65,9 +103,20 @@ namespace EFCore.WebAPI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Heroes_BatalhaId",
-                table: "Heroes",
-                column: "BatalhaId");
+                name: "IX_HeroBattles_BattleId",
+                table: "HeroBattles",
+                column: "BattleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HeroBattles_HeroId",
+                table: "HeroBattles",
+                column: "HeroId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SecretIdentities_HeroId",
+                table: "SecretIdentities",
+                column: "HeroId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Weapons_HeroiId",
@@ -78,13 +127,19 @@ namespace EFCore.WebAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "HeroBattles");
+
+            migrationBuilder.DropTable(
+                name: "SecretIdentities");
+
+            migrationBuilder.DropTable(
                 name: "Weapons");
 
             migrationBuilder.DropTable(
-                name: "Heroes");
+                name: "Battles");
 
             migrationBuilder.DropTable(
-                name: "Battles");
+                name: "Heroes");
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EFCore.Domain;
+using EFCore.Repository;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +23,14 @@ namespace EFCore.WebAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return "value";
+            var hero = new Hero { Nome = "Thor" };
+            using (var context = new HeroContext())
+            {
+                //context.Heroes.Add(hero);
+                context.Add(hero);
+                context.SaveChanges();
+            }
+            return Ok();
         }
 
         // POST api/values

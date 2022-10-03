@@ -1,4 +1,4 @@
-﻿using EFCore.WebAPI.Models;
+﻿using EFCore.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,12 +9,17 @@ namespace EFCore.Repository
 {
     public class HeroContext : DbContext
     {
+        public HeroContext()
+        {
+
+        }
+        public HeroContext(DbContextOptions<HeroContext> options) : base(options) { }
+
         public DbSet<Hero> Heroes { get; set; }
         public DbSet<Weapon> Weapons { get; set; }
         public DbSet<Battle> Battles { get; set; }
         public DbSet<HeroBattle> HeroBattles { get; set; }
         public DbSet<SecretIdentity> SecretIdentities { get; set; }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
