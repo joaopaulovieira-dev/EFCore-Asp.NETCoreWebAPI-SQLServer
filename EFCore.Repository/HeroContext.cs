@@ -9,10 +9,6 @@ namespace EFCore.Repository
 {
     public class HeroContext : DbContext
     {
-        public HeroContext()
-        {
-
-        }
         public HeroContext(DbContextOptions<HeroContext> options) : base(options) { }
 
         public DbSet<Hero> Heroes { get; set; }
@@ -20,11 +16,6 @@ namespace EFCore.Repository
         public DbSet<Battle> Battles { get; set; }
         public DbSet<HeroBattle> HeroBattles { get; set; }
         public DbSet<SecretIdentity> SecretIdentities { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Password=33385412VR.jp@;Persist Security Info=True;User ID=sa;Initial Catalog=HEROAPP;Data Source=NOTEBOOK-DELL");
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

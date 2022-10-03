@@ -12,6 +12,12 @@ namespace EFCore.WebAPI.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        public readonly HeroContext _context;
+
+        public ValuesController(HeroContext context)
+        {
+            _context = context;
+        }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
@@ -20,16 +26,14 @@ namespace EFCore.WebAPI.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [HttpGet("{nameHero}")]
+        public ActionResult<string> Get(string nameHero)
         {
-            var hero = new Hero { Nome = "Thor" };
-            using (var context = new HeroContext())
-            {
-                //context.Heroes.Add(hero);
-                context.Add(hero);
-                context.SaveChanges();
-            }
+            var hero = new Hero { Nome = nameHero };
+
+                _context.Heroes.Add(hero);
+                _context.SaveChanges();
+
             return Ok();
         }
 
