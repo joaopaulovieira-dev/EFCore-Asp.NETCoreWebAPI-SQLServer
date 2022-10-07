@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace EFCore.WebAPI.Controllers
 {
@@ -34,12 +35,17 @@ namespace EFCore.WebAPI.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{nameHero}")]
+        [HttpGet("update/{nameHero}")]
         public ActionResult Get(string nameHero)
         {
-            var hero = new Hero { Nome = nameHero };
+            //var hero = new Hero { Nome = nameHero };
 
-                _context.Heroes.Add(hero);
+            var hero = _context.Heroes
+                            .Where(h => h.Id == 1)
+                            .FirstOrDefault();
+
+            hero.Nome = "Homem Aranha";
+                //_context.Heroes.Add(hero);
                 _context.SaveChanges();
 
             return Ok();
