@@ -35,7 +35,7 @@ namespace EFCore.WebAPI.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("update/{nameHero}")]
+        [HttpGet("Update/{nameHero}")]
         public ActionResult Get(string nameHero)
         {
             //var hero = new Hero { Nome = nameHero };
@@ -43,10 +43,26 @@ namespace EFCore.WebAPI.Controllers
             var hero = _context.Heroes
                             .Where(h => h.Id == 1)
                             .FirstOrDefault();
-
             hero.Nome = "Homem Aranha";
                 //_context.Heroes.Add(hero);
                 _context.SaveChanges();
+
+            return Ok();
+        }
+
+        [HttpGet("AddRange")]
+        public ActionResult GetAddRange()
+        {
+            _context.AddRange(
+                new Hero { Nome = "Capitão América" },
+                new Hero { Nome = "Doutor Estranho" },
+                new Hero { Nome = "Pantera Negra" },
+                new Hero { Nome = "Viúva Negra" },
+                new Hero { Nome = "Hulk" },
+                new Hero { Nome = "Gavião Arqueiro" },
+                new Hero { Nome = "Capitã Marvel" }
+                );
+            _context.SaveChanges();
 
             return Ok();
         }
@@ -64,9 +80,14 @@ namespace EFCore.WebAPI.Controllers
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
+        [HttpGet("Delete/{id}")]
         public void Delete(int id)
         {
+            var Hero = _context.Heroes
+                                .Where(h => h.Id == id)
+                                .Single();
+            _context.Heroes.Remove(Hero);
+            _context.SaveChanges();
         }
     }
 }
